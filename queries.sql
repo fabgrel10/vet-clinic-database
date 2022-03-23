@@ -48,4 +48,10 @@ SELECT COUNT(animals.name) FROM species INNER JOIN animals ON species.id = anima
 SELECT COUNT(animals.name) FROM species INNER JOIN animals ON species.id = animals.species_id WHERE species.name = 'Digimon';
 SELECT name FROM animals INNER JOIN owners ON owners.id = animals.owner_id WHERE owners.full_name = 'Jennifer Orwell' AND animals.species_id = 2;
 SELECT animals.name, full_name FROM owners INNER JOIN animals ON owners.id = animals.owner_id WHERE full_name = 'Dean Winchester' AND animals.escape_attempts = 0;
-SELECT COUNT(animals.name), owners.full_name FROM owners INNER JOIN animals ON owners.id = animals.owner_id GROUP BY owners.full_name;
+SELECT owners.full_name AS "Owner",
+COUNT(animals.id) AS "Total Animals"
+FROM animals
+INNER JOIN owners
+ON animals.owner_id = owners.id
+GROUP BY owners.full_name
+ORDER BY COUNT(animals.id) DESC LIMIT 1;
