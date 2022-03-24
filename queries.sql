@@ -143,3 +143,78 @@ FROM animals
 GROUP BY owners.full_name
 ORDER BY COUNT(animals.id) DESC
 LIMIT 1;
+
+/* MILESTONE 4 */
+
+SELECT animals.name AS "Animal",
+  visits.visit_date AS "Visit Date"
+FROM animals
+  JOIN visits ON animals.id = visits.animal_id
+  JOIN vets ON visits.vet_id = vets.id
+WHERE vets.name = 'William Tatcher'
+ORDER BY visits.visit_date DESC
+LIMIT 1;
+
+SELECT COUNT(DISTINCT animals) AS "Diff. Animals"
+FROM animals
+  JOIN visits ON animals.id = visits.animal_id
+  JOIN vets ON visits.vet_id = vets.id
+WHERE vets.name = 'Stephanie Mendez';
+
+SELECT vets.name AS "Vet Name",
+  STRING_AGG(species.name, ' , ') AS "Species Name"
+FROM vets
+  LEFT JOIN specializations ON vets.id = specializations.vet_id
+  LEFT JOIN species ON species.id = specializations.species_id
+GROUP BY vets.name;
+
+SELECT animals.name AS "Animal Name"
+FROM animals
+  JOIN visits ON animals.id = visits.animal_id
+  JOIN vets ON visits.vet_id = vets.id
+WHERE vets.name = 'Stephanie Mendez'
+  AND visits.visit_date BETWEEN '2020-04-01' AND '2020-08-30';
+
+SELECT animals.name AS "Animal Name",
+  COUNT(animals) AS "Animals Count"
+FROM animals
+  INNER JOIN visits ON animals.id = visits.animal_id
+GROUP BY animals.name
+ORDER BY COUNT(animals) DESC
+LIMIT 1;
+
+SELECT animals.name AS "Animal Name",
+  visits.visit_date AS "Visit Date"
+FROM animals
+  INNER JOIN visits ON animals.id = visits.animal_id
+  INNER JOIN vets ON visits.vet_id = vets.id
+WHERE vets.name = 'Maisy Smith'
+ORDER BY visit_date
+LIMIT 1;
+
+SELECT animals.name AS "Animal Name",
+  visits.visit_date AS "Visit Date",
+  vets.name AS "Vet Name"
+FROM animals
+  INNER JOIN visits ON animals.id = visits.animal_id
+  INNER JOIN vets ON visits.vet_id = vets.id
+ORDER BY visits.visit_date DESC
+LIMIT 1;
+
+SELECT COUNT(visits) AS "Visits"
+FROM vets
+  LEFT JOIN visits ON visits.vet_id = vets.id
+  LEFT JOIN specializations ON specializations.vet_id = vets.id
+  LEFT JOIN species ON species.id = specializations.species_id
+WHERE species IS NULL;
+
+SELECT species.name AS "Species Name",
+  COUNT(species.name) AS "Visits"
+FROM vets
+  INNER JOIN visits ON visits.vet_id = vets.id
+  INNER JOIN animals ON animals.id = visits.animal_id
+  INNER JOIN species ON species.id = animals.species_id
+WHERE vets.name = 'Maisy Smith'
+GROUP BY species.name
+ORDER BY COUNT(species.name) DESC
+LIMIT 1;
