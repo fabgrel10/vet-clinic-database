@@ -39,3 +39,27 @@ ADD CONSTRAINT fk_animals_species FOREIGN KEY(species_id) REFERENCES species(id)
 ALTER TABLE animals
 ADD COLUMN owner_id SMALLINT,
 ADD CONSTRAINT fk_animals_owners FOREIGN KEY(owner_id) REFERENCES owners(id);
+
+
+/* MILESTONE 4 */
+
+CREATE TABLE vets(
+	id SMALLINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	name VARCHAR(50),
+	age SMALLINT,
+	date_of_graduation DATE
+);
+
+CREATE TABLE specializations(
+	species_id SMALLINT REFERENCES species(id) ON DELETE CASCADE,
+	vet_id SMALLINT REFERENCES vet(id) ON DELETE CASCADE,
+	PRIMARY KEY(species_id, vet_id)
+);
+
+CREATE TABLE visits(
+  id SMALLINT GENERATED ALWAYS AS IDENTITY,
+  vet_id SMALLINT REFERENCES vets(id) ON UPDATE CASCADE,
+  animals_id SMALLINT REFERENCES animals(id) ON UPDATE CASCADE,
+  visit_date DATE,
+  PRIMARY KEY(id, vet_id, animals_id)
+);
