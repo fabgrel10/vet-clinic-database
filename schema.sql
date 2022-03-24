@@ -52,14 +52,14 @@ CREATE TABLE vets(
 
 CREATE TABLE specializations(
 	species_id SMALLINT REFERENCES species(id) ON DELETE CASCADE,
-	vet_id SMALLINT REFERENCES vet(id) ON DELETE CASCADE,
+	vet_id SMALLINT REFERENCES vets(id) ON DELETE CASCADE,
 	PRIMARY KEY(species_id, vet_id)
 );
 
 CREATE TABLE visits(
   id SMALLINT GENERATED ALWAYS AS IDENTITY,
   vet_id SMALLINT REFERENCES vets(id) ON UPDATE CASCADE,
-  animals_id SMALLINT REFERENCES animals(id) ON UPDATE CASCADE,
+  animal_id SMALLINT REFERENCES animals(id) ON UPDATE CASCADE,
   visit_date DATE,
-  PRIMARY KEY(id, vet_id, animals_id)
+  PRIMARY KEY(id, vet_id, animal_id)
 );
